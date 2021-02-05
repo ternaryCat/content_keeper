@@ -82,11 +82,13 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    dry-initializer (3.0.4)
     erubi (1.10.0)
     erubis (2.7.0)
     ffi (1.14.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    httpclient (2.8.3)
     i18n (1.8.8)
       concurrent-ruby (~> 1.0)
     json (2.5.1)
@@ -210,6 +212,10 @@ GEM
       sprockets (>= 3.0.0)
     strong_migrations (0.7.6)
       activerecord (>= 5)
+    telegram-bot (0.15.2)
+      actionpack (>= 4.0, < 6.2)
+      activesupport (>= 4.0, < 6.2)
+      httpclient (~> 2.7)
     thor (1.1.0)
     tilt (2.0.10)
     tzinfo (2.0.4)
@@ -241,6 +247,7 @@ DEPENDENCIES
   bundler-audit
   byebug
   dotenv-rails
+  dry-initializer
   listen (~> 3.3)
   pg (~> 1.1)
   pry-rails
@@ -254,6 +261,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   spring
   strong_migrations
+  telegram-bot
   tzinfo-data
   web-console (>= 4.1.0)
   webpacker (~> 5.0)
