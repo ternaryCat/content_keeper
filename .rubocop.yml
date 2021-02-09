@@ -97,3 +97,7 @@ Style/RedundantSelf:
 
 Lint/UriEscapeUnescape:
   Exclude:
+
+Layout/EmptyLineBetweenDefs:
+  Exclude:
+    - 'app/services/users/create.rb'

@@ -59,7 +59,7 @@ module Telegram
         [{ text: I18n.t('bot.keyboard.add_content'), callback_data: 'add_content' }],
         [
           { text: I18n.t('bot.keyboard.find_content'), callback_data: 'find_content' },
-          { text: I18n.t('bot.keyboard.list_content'), callback_data: 'list_content' }
+          { text: I18n.t('bot.keyboard.content_list'), callback_data: 'content_list' }
         ],
         [
           { text: I18n.t('bot.keyboard.create_tag'), callback_data: 'create_tag' },
