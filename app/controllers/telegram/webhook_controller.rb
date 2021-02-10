@@ -30,6 +30,10 @@ module Telegram
       about
     end
 
+    def debug!
+      Webhook::DebugAnswer.render self, current_authentication
+    end
+
     private
 
     def callback_strategy(action)
@@ -47,29 +51,11 @@ module Telegram
     end
 
     def help
-      respond_with :message, text: I18n.t('bot.help'), reply_markup: { inline_keyboard: help_keyboard }
+      Webhook::HelpAnswer.render self
     end
 
     def about
-      respond_with :message, text: I18n.t('bot.about'), reply_markup: { inline_keyboard: about_keyboard }
-    end
-
-    def help_keyboard
-      [
-        [{ text: I18n.t('bot.keyboard.add_content'), callback_data: 'add_content' }],
-        [
-          { text: I18n.t('bot.keyboard.find_content'), callback_data: 'find_content' },
-          { text: I18n.t('bot.keyboard.content_list'), callback_data: 'content_list' }
-        ],
-        [
-          { text: I18n.t('bot.keyboard.create_tag'), callback_data: 'create_tag' },
-          { text: I18n.t('bot.keyboard.list_tags'), callback_data: 'list_tags' }
-        ]
-      ]
-    end
-
-    def about_keyboard
-      [[{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]]
+      Webhook::AboutAnswer.render self
     end
   end
 end
