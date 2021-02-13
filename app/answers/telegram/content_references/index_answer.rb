@@ -9,6 +9,7 @@ module Telegram
       def render
         return empty_list_response if count.zero?
         return one_page_list_response if !previous_id && !next_id
+
         multi_page_list_response
       end
 
@@ -21,10 +22,12 @@ module Telegram
 
       def one_page_list_response
         controller.respond_with :message, text: I18n.t('bot.content_reference.one_page_list'),
-                                          reply_markup: { inline_keyboard: one_page_list_keyboard }
+                                          reply_markup: { inline_keyboard: contents_keyboard }
       end
 
       def multi_page_list_response
+        controller.edit_message :reply_markup, reply_markup: { inline_keyboard: multi_page_list_keyboard }
+      rescue RuntimeError
         controller.respond_with :message, text: I18n.t('bot.content_reference.multi_page_list', count: count),
                                           reply_markup: { inline_keyboard: multi_page_list_keyboard }
       end
@@ -32,13 +35,6 @@ module Telegram
       def empty_list_keyboard
         [
           [{ text: I18n.t('bot.keyboard.new_content'), callback_data: 'new_content' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
-        ]
-      end
-
-      def one_page_list_keyboard
-        [
-          *contents_keyboard,
           [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
         ]
       end
@@ -61,13 +57,7 @@ module Telegram
       end
 
       def contents_keyboard
-        contents.map do |content|
-          [
-            { text: content.name || '...', callback_data: "show_content-id:#{content.id}" },
-            { text: I18n.t('bot.content_reference.keyboard.edit'), callback_data: "edit_content-id:#{content.id}" },
-            { text: I18n.t('bot.content_reference.keyboard.delete'), callback_data: "delete_content-id:#{content.id}" }
-          ]
-        end
+        contents.map { |content| [{ text: content.name || '...', callback_data: "show_content-id:#{content.id}" }] }
       end
     end
   end

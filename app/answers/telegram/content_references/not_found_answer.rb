@@ -1,11 +1,8 @@
 module Telegram
   module ContentReferences
-    class UpdatedAnswer < BaseAnswer
-      param :content
-      option :target
-
+    class NotFoundAnswer < BaseAnswer
       def render
-        controller.respond_with :message, text: I18n.t("bot.content_reference.updated_#{target}"),
+        controller.respond_with :message, text: I18n.t('bot.content_reference.not_found'),
                                           reply_markup: { inline_keyboard: inline_keyboard }
       end
 
@@ -13,7 +10,6 @@ module Telegram
 
       def inline_keyboard
         [
-          [{ text: I18n.t('bot.content_reference.keyboard.show'), callback_data: "show_content-id:#{content.id}" }],
           [{ text: I18n.t('bot.keyboard.contents'), callback_data: 'contents' }],
           [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
         ]

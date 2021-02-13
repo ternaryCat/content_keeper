@@ -3,7 +3,7 @@ module Telegram
     def self.dispatch(bot, update)
       controllers = Telegram.constants.select { |x| x.to_s.include?('Controller') && x.to_s != name.demodulize }
       controllers.each do |controller|
-        Object.const_get('Telegram::' + controller.to_s).dispatch(bot, update)
+        Object.const_get("Telegram::#{controller}").dispatch(bot, update)
       end
 
       super
