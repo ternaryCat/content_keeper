@@ -60,7 +60,10 @@ module Telegram
       previous_id = ::ContentReferences::PreviousRecordQuery.call(contents, user_contents)&.id
       next_id = ::ContentReferences::NextRecordQuery.call(contents, user_contents)&.id
 
-      ContentReferences::IndexAnswer.render self, contents, contents_count, previous_id: previous_id, next_id: next_id
+      ContentReferences::IndexAnswer.render self,
+                                            contents,
+                                            contents_count,
+                                            options.merge(previous_id: previous_id, next_id: next_id)
     end
 
     def show_content(options = {})

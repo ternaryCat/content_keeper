@@ -4,6 +4,7 @@ module Telegram
     extend Dry::Initializer
 
     param :controller
+    option :mode, optional: true
 
     class << self
       # Instantiates and calls the service at once

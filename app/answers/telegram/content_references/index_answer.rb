@@ -26,7 +26,12 @@ module Telegram
       end
 
       def multi_page_list_response
-        controller.edit_message :reply_markup, reply_markup: { inline_keyboard: multi_page_list_keyboard }
+        if mode == 'edit'
+          return controller.edit_message :reply_markup, reply_markup: { inline_keyboard: multi_page_list_keyboard }
+        end
+
+        controller.respond_with :message, text: I18n.t('bot.content_reference.multi_page_list', count: count),
+                                          reply_markup: { inline_keyboard: multi_page_list_keyboard }
       rescue RuntimeError
         controller.respond_with :message, text: I18n.t('bot.content_reference.multi_page_list', count: count),
                                           reply_markup: { inline_keyboard: multi_page_list_keyboard }
@@ -49,9 +54,14 @@ module Telegram
       def arrows_keyboard
         result = []
         if previous_id
-          result += [[{ text: I18n.t('bot.keyboard.previous'), callback_data: "contents-previous_id:#{previous_id}" }]]
+          result += [
+            [{ text: I18n.t('bot.keyboard.previous'), callback_data: "contents-mode:edit:previous_id:#{previous_id}" }]
+          ]
         end
-        result += [[{ text: I18n.t('bot.keyboard.next'), callback_data: "contents-next_id:#{next_id}" }]] if next_id
+
+        if next_id
+          result += [[{ text: I18n.t('bot.keyboard.next'), callback_data: "contents-mode:edit:next_id:#{next_id}" }]]
+        end
 
         result
       end
