@@ -25,11 +25,8 @@ module Telegram
       def edit_keyboard
         [
           [
-            {
-              text: I18n.t('bot.content_reference.keyboard.name'),
-              callback_data: "edit_content-target:name:id:#{content.id}"
-            },
-            { text: I18n.t('bot.content_reference.keyboard.delete'), callback_data: "delete_content-id:#{content.id}" }
+            { text: I18n.t('bot.keyboard.name'), callback_data: "edit_content-target:name:id:#{content.id}" },
+            { text: I18n.t('bot.keyboard.delete'), callback_data: "delete_content-id:#{content.id}" }
           ]
         ]
       end
