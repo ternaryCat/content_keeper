@@ -23,7 +23,7 @@ module Telegram
     end
 
     def global_session
-      @@_global_session ||= self.class.superclass.build_session(session_key)
+      @@_global_session ||= self.class.superclass.build_session(session_key) # rubocop:disable Style/ClassVars
     end
   end
 end
