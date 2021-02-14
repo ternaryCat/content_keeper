@@ -53,23 +53,12 @@ module Telegram
       ContentReferences::UpdatedAnswer.render self, content_reference, options
     end
 
-    def parse_action(action)
-      action_name, raw_options = action.split('-')
-      return [action_name, {}] unless raw_options
-
-      options = Hash[*raw_options.split(':')]
-      [action_name, options.symbolize_keys]
-    end
-
     def content_list(options = {})
-      user_contents = ContentReference.where(authentication: current_authentication)
+      user_contents = current_authentication.content_references
       contents_count = user_contents.count
-      contents = user_contents
-      contents = contents.where('id <= ?', options[:previous]) if options[:previous]
-      contents = contents.where('id >= ?', options[:next]) if options[:next]
-      contents = contents.limit(5).order(id: :desc)
-      previous_id = user_contents.where('id < ?', contents.last&.id).order(id: :desc).limit(1).first&.id
-      next_id = user_contents.where('id > ?', contents.first&.id).order(id: :asc).limit(1).first&.id
+      contents = ::ContentReferences::AllQuery.call user_contents, options.merge(limit: 5)
+      previous_id = ::ContentReferences::PreviousRecordQuery.call(contents, user_contents)&.id
+      next_id = ::ContentReferences::NextRecordQuery.call(contents, user_contents)&.id
 
       ContentReferences::IndexAnswer.render self, contents, contents_count, previous_id: previous_id, next_id: next_id
     end
