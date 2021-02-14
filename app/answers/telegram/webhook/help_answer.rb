@@ -15,8 +15,8 @@ module Telegram
             { text: I18n.t('bot.keyboard.contents'), callback_data: 'contents' }
           ],
           [
-            { text: I18n.t('bot.keyboard.create_tag'), callback_data: 'create_tag' },
-            { text: I18n.t('bot.keyboard.list_tags'), callback_data: 'list_tags' }
+            { text: I18n.t('bot.keyboard.new_tag'), callback_data: 'new_tag' },
+            { text: I18n.t('bot.keyboard.tags'), callback_data: 'tags' }
           ]
         ]
       end
