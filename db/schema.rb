@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_104017) do
+ActiveRecord::Schema.define(version: 2021_02_15_183433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,15 @@ ActiveRecord::Schema.define(version: 2021_02_14_104017) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["authentication_id"], name: "index_content_references_on_authentication_id"
+  end
+
+  create_table "content_references_tags", force: :cascade do |t|
+    t.bigint "content_reference_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content_reference_id"], name: "index_content_references_tags_on_content_reference_id"
+    t.index ["tag_id"], name: "index_content_references_tags_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
