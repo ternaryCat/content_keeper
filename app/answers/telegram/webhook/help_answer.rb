@@ -2,7 +2,8 @@ module Telegram
   module Webhook
     class HelpAnswer < BaseAnswer
       def render
-        controller.respond_with :message, text: I18n.t('bot.help'), reply_markup: { inline_keyboard: inline_keyboard }
+        controller.respond_with :message, text: I18n.t('bot.help'), reply_markup: { keyboard: keyboard, resize_keyboard: true }
+        controller.respond_with :message, text: I18n.t('bot.menu'), reply_markup: { inline_keyboard: inline_keyboard }
       end
 
       private
@@ -19,6 +20,10 @@ module Telegram
             { text: I18n.t('bot.keyboard.tags'), callback_data: 'tags' }
           ]
         ]
+      end
+
+      def keyboard
+        [[I18n.t('bot.keyboard.help'), I18n.t('bot.keyboard.about')]]
       end
     end
   end
