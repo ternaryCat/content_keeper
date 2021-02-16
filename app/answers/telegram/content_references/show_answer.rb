@@ -19,7 +19,10 @@ module Telegram
         [
           [*edit_keyboard],
           [*delete_keyboard, *attach_tag_keyboard],
-          [button(I18n.t('bot.content_reference.keyboard.attached_tags'), 'tags', content_id: content.id)],
+          [
+            button(I18n.t('bot.content_reference.keyboard.detach_tags'), 'detach_tags_list', content_id: content.id),
+            button(I18n.t('bot.content_reference.keyboard.attached_tags'), 'tags', content_id: content.id)
+          ],
           [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
         ]
       end

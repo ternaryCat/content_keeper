@@ -5,8 +5,6 @@ module Telegram
       callback_strategy(action.to_sym)&.call(options)
     rescue ::ContentReferences::BaseService::NotFound
       ContentReferences::NotFoundAnswer.render self
-    rescue ::ContentReferences::BaseService::NotFoundTag
-      Tags::NotFoundAnswer.render self
     end
 
     def message(message)
@@ -30,8 +28,7 @@ module Telegram
         show_content: ->(options) { show_content(options) },
         delete_content: ->(options) { delete_content(options) },
         cancel_deleting_content: ->(_options) { ContentReferences::CanceledDeletingAnswer.render self },
-        destroy_content: ->(options) { destroy_content(options) },
-        attach_tag: ->(options) { attach_tag(options) }
+        destroy_content: ->(options) { destroy_content(options) }
       }[action]
     end
 
@@ -83,15 +80,6 @@ module Telegram
       content = ContentReference.find_by id: options[:id]
       ::ContentReferences::Destroy.call content
       ContentReferences::DeletedAnswer.render self
-    end
-
-    def attach_tag(options)
-      content = ContentReference.find_by id: options[:content_id]
-      tag = Tag.find_by id: options[:id]
-      ::ContentReferences::AttachTag.call content, tag
-      ContentReferences::AttachedTagAnswer.render self, content, tag
-    rescue ::ContentReferences::AttachTag::Duplicate
-      ContentReferences::AttachedTagDuplicatesAnswer.render self, content
     end
 
     def params

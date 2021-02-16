@@ -29,7 +29,8 @@ module Telegram
         delete_tag: ->(options) { delete_tag(options) },
         cancel_deleting_tag: ->(_options) { Tags::CanceledDeletingAnswer.render self },
         destroy_tag: ->(options) { destroy_tag(options) },
-        attach_tags_list: ->(options) { attach_tags_list(options) }
+        attach_tags_list: ->(options) { attach_tags_list(options) },
+        detach_tags_list: ->(options) { detach_tags_list(options) }
       }[action]
     end
 
@@ -78,7 +79,7 @@ module Telegram
       Tags::DeletedAnswer.render self
     end
 
-    def attach_tags_list(options)
+    def attach_tags_list(options = {})
       user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, banned_content_id: options[:content_id]
       tags_count = user_tags.count
       tags = ::Tags::AllQuery.call user_tags, options.slice(:previous_id, :next_id).merge(limit: 5)
@@ -87,6 +88,20 @@ module Telegram
       next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
 
       Tags::AttachTagsListAnswer.render self,
+                                        tags,
+                                        tags_count,
+                                        options.merge(previous_id: previous_id, next_id: next_id)
+    end
+
+    def detach_tags_list(options = {})
+      user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, content_id: options[:content_id]
+      tags_count = user_tags.count
+      tags = ::Tags::AllQuery.call user_tags, options.slice(:previous_id, :next_id).merge(limit: 5)
+
+      previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
+      next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
+
+      Tags::DetachTagsListAnswer.render self,
                                         tags,
                                         tags_count,
                                         options.merge(previous_id: previous_id, next_id: next_id)

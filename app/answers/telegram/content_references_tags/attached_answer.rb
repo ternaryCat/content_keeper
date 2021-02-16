@@ -1,6 +1,6 @@
 module Telegram
-  module ContentReferences
-    class AttachedTagAnswer < BaseAnswer
+  module ContentReferencesTags
+    class AttachedAnswer < BaseAnswer
       param :content
       param :tag
 

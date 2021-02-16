@@ -1,5 +1,5 @@
-module ContentReferences
-  class AttachTag < BaseService
+module ContentReferencesTags
+  class Attach < BaseService
     class Duplicate < RuntimeError; end
 
     param :content_reference
@@ -14,7 +14,7 @@ module ContentReferences
     private
 
     def valid!
-      raise NotFound unless content_reference
+      raise NotFoundContent unless content_reference
       raise NotFoundTag unless tag
       raise Duplicate if ContentReferencesTag.find_by content_reference: content_reference, tag: tag
     end
