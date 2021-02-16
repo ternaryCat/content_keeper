@@ -57,8 +57,8 @@ module Telegram
         result = []
         result.append(previous_arrow) if previous_id
         result.append(next_arrow) if next_id
-
         return [] if result.empty?
+
         [result]
       end
 

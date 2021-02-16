@@ -5,7 +5,7 @@ module Telegram
       callback_strategy(action.to_sym)&.call(options)
     rescue ::ContentReferences::BaseService::NotFound
       ContentReferences::NotFoundAnswer.render self
-    rescue :: ContentReferences::BaseService::NotFoundTag
+    rescue ::ContentReferences::BaseService::NotFoundTag
       Tags::NotFoundAnswer.render self
     end
 

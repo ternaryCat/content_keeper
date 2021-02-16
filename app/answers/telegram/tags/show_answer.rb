@@ -15,7 +15,7 @@ module Telegram
             { text: I18n.t('bot.keyboard.rename'), callback_data: "edit_tag-target:name:id:#{tag.id}" },
             { text: I18n.t('bot.keyboard.delete'), callback_data: "delete_tag-id:#{tag.id}" }
           ],
-          [{ text: I18n.t("bot.tag.keyboard.contents"), callback_data: "contents-tag_id:#{tag.id}" }],
+          [{ text: I18n.t('bot.tag.keyboard.contents'), callback_data: "contents-tag_id:#{tag.id}" }],
           [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
         ]
       end
