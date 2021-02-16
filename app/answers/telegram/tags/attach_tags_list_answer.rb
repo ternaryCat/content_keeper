@@ -1,9 +1,9 @@
 module Telegram
   module Tags
-    class IndexAnswer < BaseAnswer
+    class AttachTagsListAnswer < BaseAnswer
       param :tags
       param :count
-      option :content_id, optional: true
+      option :content_id
       option :previous_id, optional: true
       option :next_id, optional: true
       option :mode, optional: true
@@ -23,7 +23,7 @@ module Telegram
       end
 
       def one_page_list_response
-        controller.respond_with :message, text: I18n.t('bot.tag.one_page_list'),
+        controller.respond_with :message, text: I18n.t('bot.tag.choose'),
                                           reply_markup: { inline_keyboard: tags_keyboard }
       end
 
@@ -32,10 +32,10 @@ module Telegram
           return controller.edit_message :reply_markup, reply_markup: { inline_keyboard: multi_page_list_keyboard }
         end
 
-        controller.respond_with :message, text: I18n.t('bot.tag.multi_page_list', count: count),
+        controller.respond_with :message, text: I18n.t('bot.tag.choose', count: count),
                                           reply_markup: { inline_keyboard: multi_page_list_keyboard }
       rescue RuntimeError
-        controller.respond_with :message, text: I18n.t('bot.tag.multi_page_list', count: count),
+        controller.respond_with :message, text: I18n.t('bot.tag.choose', count: count),
                                           reply_markup: { inline_keyboard: multi_page_list_keyboard }
       end
 
@@ -55,25 +55,27 @@ module Telegram
 
       def arrows_keyboard
         result = []
-        if previous_id
-          result.append [
-            button(I18n.t('bot.keyboard.previous'), 'tags', mode: :edit,
-                                                            previous_id: previous_id,
-                                                            content_id: content_id)
-          ]
-        end
+        result.append(previous_arrow) if previous_id
+        result.append(next_arrow) if next_id
 
-        if next_id
-          result.append [
-            button(I18n.t('bot.keyboard.next'), 'tags', mode: :edit, next_id: next_id, content_id: content_id)
-          ]
-        end
+        return [] if result.empty?
+        [result]
+      end
 
-        result
+      def previous_arrow
+        button I18n.t('bot.keyboard.previous'), 'attach_tags_list', mode: :edit,
+                                                                    previous_id: previous_id,
+                                                                    content_id: content_id
+      end
+
+      def next_arrow
+        button I18n.t('bot.keyboard.next'), 'attach_tags_list', mode: :edit, next_id: next_id, content_id: content_id
       end
 
       def tags_keyboard
-        tags.map { |tag| [{ text: tag.name, callback_data: "show_tag-id:#{tag.id}" }] }
+        tags.map do |tag|
+          [{ text: tag.name, callback_data: "attach_tag-id:#{tag.id}:content_id:#{content_id}" }]
+        end
       end
     end
   end

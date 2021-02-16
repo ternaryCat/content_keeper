@@ -6,7 +6,7 @@ module Tags
       last_record = relation.order(id: :asc).first
       return unless last_record
 
-      user_tags.where('id > ?', last_record.id).limit(1).first
+      user_tags.where('tags.id > ?', last_record.id).last
     end
   end
 end

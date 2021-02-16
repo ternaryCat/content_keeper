@@ -3,6 +3,8 @@ module Telegram
     def callback_query(data)
       action, options = parse_action(data)
       callback_strategy(action.to_sym)&.call(options)
+    rescue ::Tags::BaseService::NotFound
+      Tags::NotFoundAnswer.render self
     end
 
     def message(message)
@@ -26,7 +28,8 @@ module Telegram
         show_tag: ->(options) { show_tag(options) },
         delete_tag: ->(options) { delete_tag(options) },
         cancel_deleting_tag: ->(_options) { Tags::CanceledDeletingAnswer.render self },
-        destroy_tag: ->(options) { destroy_tag(options) }
+        destroy_tag: ->(options) { destroy_tag(options) },
+        attach_tags_list: ->(options) { attach_tags_list(options) }
       }[action]
     end
 
@@ -50,7 +53,7 @@ module Telegram
     end
 
     def tags_list(options = {})
-      user_tags = current_user.tags
+      user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, content_id: options[:content_id]
       tags_count = user_tags.count
       tags = ::Tags::AllQuery.call user_tags, options.merge(limit: 5)
       previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
@@ -73,6 +76,20 @@ module Telegram
       tag = Tag.find_by id: options[:id]
       ::Tags::Destroy.call tag
       Tags::DeletedAnswer.render self
+    end
+
+    def attach_tags_list(options)
+      user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, banned_content_id: options[:content_id]
+      tags_count = user_tags.count
+      tags = ::Tags::AllQuery.call user_tags, options.slice(:previous_id, :next_id).merge(limit: 5)
+
+      previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
+      next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
+
+      Tags::AttachTagsListAnswer.render self,
+                                        tags,
+                                        tags_count,
+                                        options.merge(previous_id: previous_id, next_id: next_id)
     end
 
     def params(message)

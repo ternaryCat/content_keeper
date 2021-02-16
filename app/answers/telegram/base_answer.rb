@@ -18,5 +18,14 @@ module Telegram
         super(*args, **kwargs)
       end
     end
+
+    protected
+
+    def button(text, callback_name, **options)
+      params = options.compact.to_a.join(':')
+      callback_data = [callback_name, params].compact.join('-')
+
+      { text: text, callback_data: callback_data }
+    end
   end
 end
