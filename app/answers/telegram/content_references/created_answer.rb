@@ -14,7 +14,7 @@ module Telegram
         [
           *edit_keyboard,
           [
-            { text: I18n.t('bot.keyboard.attach_tag'), callback_data: "attach_tag-content:#{content.id}" },
+            { text: I18n.t('bot.keyboard.attach_tag'), callback_data: "attach_tags_list-content_id:#{content.id}" },
             { text: I18n.t('bot.keyboard.contents'), callback_data: 'contents' }
           ],
           [{ text: I18n.t('bot.content_reference.keyboard.create_more'), callback_data: 'new_content' }],
