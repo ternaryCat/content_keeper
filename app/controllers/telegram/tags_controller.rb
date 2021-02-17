@@ -56,11 +56,12 @@ module Telegram
     def tags_list(options = {})
       user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, content_id: options[:content_id]
       tags_count = user_tags.count
-      tags = ::Tags::AllQuery.call user_tags, options.merge(limit: 5)
-      previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
-      next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
+      tags = ::Tags::AllQuery.call user_tags, options.merge(limit: Telegram::PAGE_SIZE)
+      start_next_page = ::Tags::NextPageStartQuery.call user_tags, tags, Telegram::PAGE_SIZE
+      start_previous_page = ::Tags::PreviousPageStartQuery.call user_tags, tags
 
-      Tags::IndexAnswer.render self, tags, tags_count, options.merge(previous_id: previous_id, next_id: next_id)
+      params = options.merge(next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id)
+      Tags::IndexAnswer.render self, tags, tags_count, params
     end
 
     def show_tag(options = {})
@@ -82,29 +83,25 @@ module Telegram
     def attach_tags_list(options = {})
       user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, banned_content_id: options[:content_id]
       tags_count = user_tags.count
-      tags = ::Tags::AllQuery.call user_tags, options.slice(:previous_id, :next_id).merge(limit: 5)
+      tags = ::Tags::AllQuery.call user_tags, max_id: options[:max_id], limit: Telegram::PAGE_SIZE
 
-      previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
-      next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
+      start_next_page = ::Tags::NextPageStartQuery.call user_tags, tags, Telegram::PAGE_SIZE
+      start_previous_page = ::Tags::PreviousPageStartQuery.call user_tags, tags
 
-      Tags::AttachTagsListAnswer.render self,
-                                        tags,
-                                        tags_count,
-                                        options.merge(previous_id: previous_id, next_id: next_id)
+      params = options.merge(next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id)
+      Tags::AttachTagsListAnswer.render self, tags, tags_count, params
     end
 
     def detach_tags_list(options = {})
       user_tags = ::Tags::AllQuery.call Tag.all, user: current_user, content_id: options[:content_id]
       tags_count = user_tags.count
-      tags = ::Tags::AllQuery.call user_tags, options.slice(:previous_id, :next_id).merge(limit: 5)
+      tags = ::Tags::AllQuery.call user_tags, max_id: options[:max_id], limit: Telegram::PAGE_SIZE
 
-      previous_id = ::Tags::PreviousRecordQuery.call(tags, user_tags)&.id
-      next_id = ::Tags::NextRecordQuery.call(tags, user_tags)&.id
+      start_next_page = ::Tags::NextPageStartQuery.call user_tags, tags, Telegram::PAGE_SIZE
+      start_previous_page = ::Tags::PreviousPageStartQuery.call user_tags, tags
 
-      Tags::DetachTagsListAnswer.render self,
-                                        tags,
-                                        tags_count,
-                                        options.merge(previous_id: previous_id, next_id: next_id)
+      params = options.merge(next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id)
+      Tags::DetachTagsListAnswer.render self, tags, tags_count, params
     end
 
     def params(message)

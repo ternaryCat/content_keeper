@@ -60,9 +60,8 @@ module Telegram
       start_next_page = ::ContentReferences::NextPageStartQuery.call user_contents, contents, Telegram::PAGE_SIZE
       start_previous_page = ::ContentReferences::PreviousPageStartQuery.call user_contents, contents
 
-      ContentReferences::IndexAnswer.render self, contents, contents_count, options.merge(
-        { next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id }
-      )
+      params = options.merge(next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id)
+      ContentReferences::IndexAnswer.render self, contents, contents_count, params
     end
 
     def show_content(options = {})

@@ -4,13 +4,12 @@ module Telegram
       param :tags
       param :count
       option :content_id
-      option :previous_id, optional: true
-      option :next_id, optional: true
-      option :mode, optional: true
+      option :next_page_id, optional: true
+      option :previous_page_id, optional: true
 
       def render
         return empty_list_response if count.zero?
-        return one_page_list_response if !previous_id && !next_id
+        return one_page_list_response if !next_page_id && !previous_page_id
 
         multi_page_list_response
       end
@@ -55,8 +54,8 @@ module Telegram
 
       def arrows_keyboard
         result = []
-        result.append(previous_arrow) if previous_id
-        result.append(next_arrow) if next_id
+        result.append(previous_arrow) if previous_page_id
+        result.append(next_arrow) if next_page_id
         return [] if result.empty?
 
         [result]
@@ -64,12 +63,14 @@ module Telegram
 
       def previous_arrow
         button I18n.t('bot.keyboard.previous'), 'attach_tags_list', mode: :edit,
-                                                                    previous_id: previous_id,
+                                                                    max_id: previous_page_id,
                                                                     content_id: content_id
       end
 
       def next_arrow
-        button I18n.t('bot.keyboard.next'), 'attach_tags_list', mode: :edit, next_id: next_id, content_id: content_id
+        button I18n.t('bot.keyboard.next'), 'attach_tags_list', mode: :edit,
+                                                                max_id: next_page_id,
+                                                                content_id: content_id
       end
 
       def tags_keyboard
