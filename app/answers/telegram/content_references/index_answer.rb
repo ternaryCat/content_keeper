@@ -3,6 +3,7 @@ module Telegram
     class IndexAnswer < BaseAnswer
       param :contents
       param :count
+      option :tag_id, optional: true
       option :next_page_id, optional: true
       option :previous_page_id, optional: true
 
@@ -54,11 +55,15 @@ module Telegram
       def arrows_keyboard
         result = []
         if previous_page_id
-          result.append button(I18n.t('bot.keyboard.previous'), 'contents', mode: :edit, max_id: previous_page_id)
+          result.append button(I18n.t('bot.keyboard.previous'), 'contents', mode: :edit,
+                                                                            max_id: previous_page_id,
+                                                                            tag_id: tag_id)
         end
 
         if next_page_id
-          result.append button(I18n.t('bot.keyboard.next'), 'contents', mode: :edit, max_id: next_page_id)
+          result.append button(I18n.t('bot.keyboard.next'), 'contents', mode: :edit,
+                                                                        max_id: next_page_id,
+                                                                        tag_id: tag_id)
         end
 
         return [] if result.empty?

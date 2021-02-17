@@ -54,7 +54,8 @@ module Telegram
     end
 
     def content_list(options = {})
-      user_contents = ::ContentReferences::AllQuery.call ContentReference.all, authentication: current_authentication
+      user_contents = ::ContentReferences::AllQuery.call ContentReference.all, authentication: current_authentication,
+                                                                               tag_id: options[:tag_id]
       contents_count = user_contents.count
       contents = ::ContentReferences::AllQuery.call user_contents, options.merge(limit: Telegram::PAGE_SIZE)
       start_next_page = ::ContentReferences::NextPageStartQuery.call user_contents, contents, Telegram::PAGE_SIZE
