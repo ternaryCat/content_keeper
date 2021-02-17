@@ -54,16 +54,15 @@ module Telegram
     end
 
     def content_list(options = {})
-      user_contents = current_authentication.content_references
+      user_contents = ::ContentReferences::AllQuery.call ContentReference.all, authentication: current_authentication
       contents_count = user_contents.count
-      contents = ::ContentReferences::AllQuery.call user_contents, options.merge(limit: 5)
-      previous_id = ::ContentReferences::PreviousRecordQuery.call(contents, user_contents)&.id
-      next_id = ::ContentReferences::NextRecordQuery.call(contents, user_contents)&.id
+      contents = ::ContentReferences::AllQuery.call user_contents, options.merge(limit: Telegram::PAGE_SIZE)
+      start_next_page = ::ContentReferences::NextPageStartQuery.call user_contents, contents, Telegram::PAGE_SIZE
+      start_previous_page = ::ContentReferences::PreviousPageStartQuery.call user_contents, contents
 
-      ContentReferences::IndexAnswer.render self,
-                                            contents,
-                                            contents_count,
-                                            options.merge(previous_id: previous_id, next_id: next_id)
+      ContentReferences::IndexAnswer.render self, contents, contents_count, options.merge(
+        { next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id }
+      )
     end
 
     def show_content(options = {})
