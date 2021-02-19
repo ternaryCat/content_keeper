@@ -11,7 +11,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [[{ text: I18n.t('bot.keyboard.cancel'), callback_data: 'cancel_content_updating' }]]
+        [[{ text: I18n.t('bot.keyboard.cancel'), callback_data: "cancel_content_updating-target:#{target}" }]]
       end
     end
   end
