@@ -1,6 +1,6 @@
 module Telegram
   module ContentReferencesTags
-    class Duplicate < BaseAnswer
+    class DuplicateAnswer < BaseAnswer
       param :content
 
       def render
