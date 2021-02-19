@@ -1,3 +1,3 @@
 # Skeeper
 
-Application for keeping your content in the telegram bot
+Telegram bot for notes saving 
