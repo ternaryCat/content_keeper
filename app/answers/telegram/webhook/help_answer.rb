@@ -12,13 +12,10 @@ module Telegram
       def inline_keyboard
         [
           [
-            { text: I18n.t('bot.keyboard.new_content'), callback_data: 'new_content' },
-            { text: I18n.t('bot.keyboard.contents'), callback_data: 'contents' }
+            button(I18n.t('bot.keyboard.new_content'), 'new_content'),
+            button(I18n.t('bot.keyboard.contents'), 'contents')
           ],
-          [
-            { text: I18n.t('bot.keyboard.new_tag'), callback_data: 'new_tag' },
-            { text: I18n.t('bot.keyboard.tags'), callback_data: 'tags' }
-          ]
+          [button(I18n.t('bot.keyboard.new_tag'), 'new_tag'), button(I18n.t('bot.keyboard.tags'), 'tags')]
         ]
       end
 

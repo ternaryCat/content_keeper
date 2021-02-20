@@ -9,10 +9,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [
-          [{ text: I18n.t('bot.keyboard.tags'), callback_data: 'tags' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
-        ]
+        [[button(I18n.t('bot.keyboard.tags'), 'tags')], [button(I18n.t('bot.keyboard.help'), 'help')]]
       end
     end
   end

@@ -13,9 +13,9 @@ module Telegram
 
       def inline_keyboard
         [
-          [{ text: I18n.t('bot.keyboard.show'), callback_data: "show_content-id:#{content.id}" }],
-          [{ text: I18n.t('bot.keyboard.contents'), callback_data: 'contents' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
+          [button(I18n.t('bot.keyboard.show'), 'show_content', id: content.id)],
+          [button(I18n.t('bot.keyboard.contents'), 'contents')],
+          [button(I18n.t('bot.keyboard.help'), 'help')]
         ]
       end
     end

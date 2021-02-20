@@ -74,9 +74,7 @@ module Telegram
       end
 
       def tags_keyboard
-        tags.map do |tag|
-          [{ text: tag.name, callback_data: "attach_tag-id:#{tag.id}:content_id:#{content_id}" }]
-        end
+        tags.map { |tag| [button(tag.name, 'attach_tag', id: tag.id, content_id: content_id)] }
       end
     end
   end

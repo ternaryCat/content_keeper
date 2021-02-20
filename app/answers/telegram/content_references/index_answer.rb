@@ -40,8 +40,7 @@ module Telegram
 
       def empty_list_keyboard
         [
-          [{ text: I18n.t('bot.keyboard.new_content'), callback_data: 'new_content' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
+          [button(I18n.t('bot.keyboard.new_content'), 'new_content')], [button(I18n.t('bot.keyboard.help'), 'help')]
         ]
       end
 
@@ -72,7 +71,7 @@ module Telegram
       end
 
       def contents_keyboard
-        contents.map { |content| [{ text: content.name || '...', callback_data: "show_content-id:#{content.id}" }] }
+        contents.map { |content| [button(content.name || '...', 'show_content', id: content.id)] }
       end
     end
   end

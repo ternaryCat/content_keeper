@@ -8,7 +8,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [[{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]]
+        [[button(I18n.t('bot.keyboard.help'), 'help')]]
       end
     end
   end

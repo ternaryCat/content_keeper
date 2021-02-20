@@ -12,11 +12,11 @@ module Telegram
       def inline_keyboard
         [
           [
-            { text: I18n.t('bot.keyboard.rename'), callback_data: "edit_tag-target:name:id:#{tag.id}" },
-            { text: I18n.t('bot.keyboard.delete'), callback_data: "delete_tag-id:#{tag.id}" }
+            button(I18n.t('bot.keyboard.rename'), 'edit_tag', target: :name, id: tag.id),
+            button(I18n.t('bot.keyboard.delete'), 'delete_tag', id: tag.id)
           ],
-          [{ text: I18n.t('bot.tag.keyboard.contents'), callback_data: "contents-tag_id:#{tag.id}" }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
+          [button(I18n.t('bot.tag.keyboard.contents'), 'contents', tag_id: tag.id)],
+          [button(I18n.t('bot.keyboard.help'), 'help')]
         ]
       end
     end

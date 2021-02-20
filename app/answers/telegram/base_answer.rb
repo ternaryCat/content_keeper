@@ -22,7 +22,7 @@ module Telegram
     protected
 
     def button(text, callback_name, **options)
-      params = options.compact.to_a.join(':')
+      params = options.compact.to_a.join(':') if options.present?
       callback_data = [callback_name, params].compact.join('-')
 
       { text: text, callback_data: callback_data }

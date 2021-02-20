@@ -39,10 +39,7 @@ module Telegram
       end
 
       def empty_list_keyboard
-        [
-          [{ text: I18n.t('bot.keyboard.new_tag'), callback_data: 'new_tag' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
-        ]
+        [[button(I18n.t('bot.keyboard.new_tag'), 'new_tag')], [button(I18n.t('bot.keyboard.help'), 'help')]]
       end
 
       def multi_page_list_keyboard
@@ -71,7 +68,7 @@ module Telegram
       end
 
       def tags_keyboard
-        tags.map { |tag| [{ text: tag.name, callback_data: "show_tag-id:#{tag.id}" }] }
+        tags.map { |tag| [button(tag.name, 'show_tag', id: tag.id)] }
       end
     end
   end

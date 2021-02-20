@@ -12,8 +12,8 @@ module Telegram
 
       def inline_keyboard
         [[
-          { text: I18n.t('bot.keyboard.cancel'), callback_data: "cancel_deleting_tag-id:#{tag.id}" },
-          { text: I18n.t('bot.keyboard.delete'), callback_data: "destroy_tag-id:#{tag.id}" }
+          button(I18n.t('bot.keyboard.cancel'), 'cancel_deleting_tag', id: tag.id),
+          button(I18n.t('bot.keyboard.delete'), 'destroy_tag', id: tag.id)
         ]]
       end
     end

@@ -9,7 +9,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [[{ text: I18n.t('bot.keyboard.cancel'), callback_data: 'cancel_content_creating' }]]
+        [[button(I18n.t('bot.keyboard.cancel'), 'cancel_content_creating')]]
       end
     end
   end
