@@ -1,6 +1,6 @@
 module Telegram
   module ContentReferencesTags
-    class NotFound < BaseAnswer
+    class NotFoundAnswer < BaseAnswer
       def render
         controller.respond_with :message, text: I18n.t('bot.content_references_tag.not_found'),
                                           reply_markup: { inline_keyboard: inline_keyboard }
