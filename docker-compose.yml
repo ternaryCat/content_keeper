@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    restart: always
+    volumes:
+      - ./docker/nginx/conf:/etc/letsencrypt
+    env_file: .env
+    links:
+      - web
+    ports:
+      - 80:80
+      - 443:443
+
+  # certbot:
+  #   image: certbot/certbot
+  #   restart: always
+  #   volumes:
+  #     - ./docker/certbot/conf:/etc/letsencrypt
+  #     - ./docker/certbot/www:/var/www/certbot
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    restart: always
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ./:/home/dockeruser/project
+      - backend-modules:/usr/local/bundle
+    env_file: .env
+    stdin_open: true
+    tty: true
+
+volumes:
+  backend-modules:

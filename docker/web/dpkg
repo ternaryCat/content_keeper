@@ -1,0 +1,10 @@
+/home/dockeruser/project/log/*.log {
+        su dockeruser dockeruser
+        size 10M
+        compress
+        delaycompress
+        missingok
+        notifempty
+        rotate 10
+        create 644 dockeruser dockeruser
+}
