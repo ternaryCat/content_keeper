@@ -16,7 +16,7 @@ module Telegram
             button(I18n.t('bot.keyboard.rename'), 'edit_tag', target: :name, id: tag.id),
             button(I18n.t('bot.keyboard.delete'), 'delete_tag', id: tag.id)
           ],
-          [button(I18n.t('bot.tag.keyboard.create_more'), 'new_tag'),  button(I18n.t('bot.keyboard.tags'), 'tags')],
+          [button(I18n.t('bot.tag.keyboard.create_more'), 'new_tag'), button(I18n.t('bot.keyboard.tags'), 'tags')],
           [button(I18n.t('bot.keyboard.help'), 'help')]
         ]
       end

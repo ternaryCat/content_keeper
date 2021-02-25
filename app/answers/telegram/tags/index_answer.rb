@@ -52,9 +52,9 @@ module Telegram
       def arrows_keyboard
         result = []
         if previous_page_id
-          result.append  button(I18n.t('bot.keyboard.previous'), 'tags', mode: :edit,
-                                                                         max_id: previous_page_id,
-                                                                         content_id: content_id)
+          result.append button(I18n.t('bot.keyboard.previous'), 'tags', mode: :edit,
+                                                                        max_id: previous_page_id,
+                                                                        content_id: content_id)
         end
 
         if next_page_id

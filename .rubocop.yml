@@ -42,7 +42,7 @@ Style/DoubleNegation:
   Enabled: false
 
 Rails/SkipsModelValidations:
-  Blacklist:
+  ForbiddenMethods:
     - decrement!
     - decrement_counter
     - increment!
