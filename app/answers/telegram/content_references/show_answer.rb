@@ -16,7 +16,12 @@ module Telegram
       private
 
       def inline_keyboard
-        [*edit_keyboard, tags_keyboard, [button(I18n.t('bot.keyboard.help'), 'help')]]
+        [
+          *edit_keyboard,
+          tags_keyboard,
+          [button(I18n.t('bot.keyboard.help'), 'help')],
+          [button(I18n.t('bot.keyboard.close'), 'close')]
+        ]
       end
 
       def edit_keyboard

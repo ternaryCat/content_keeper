@@ -39,7 +39,8 @@ module Telegram
     def callback_strategy(action)
       {
         help: -> { help },
-        about: -> { about }
+        about: -> { about },
+        close: -> { Webhook::CloseAnswer.render self, from['id'], payload['message']['message_id'] }
       }[action]
     end
 

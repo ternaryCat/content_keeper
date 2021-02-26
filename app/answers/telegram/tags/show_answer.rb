@@ -16,7 +16,8 @@ module Telegram
             button(I18n.t('bot.keyboard.delete'), 'delete_tag', id: tag.id)
           ],
           [button(I18n.t('bot.tag.keyboard.contents'), 'contents', tag_id: tag.id)],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          [button(I18n.t('bot.keyboard.help'), 'help')],
+          [button(I18n.t('bot.keyboard.close'), 'close')]
         ]
       end
     end

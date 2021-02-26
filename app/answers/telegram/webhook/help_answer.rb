@@ -15,7 +15,8 @@ module Telegram
             button(I18n.t('bot.keyboard.new_content'), 'new_content'),
             button(I18n.t('bot.keyboard.contents'), 'contents')
           ],
-          [button(I18n.t('bot.keyboard.new_tag'), 'new_tag'), button(I18n.t('bot.keyboard.tags'), 'tags')]
+          [button(I18n.t('bot.keyboard.new_tag'), 'new_tag'), button(I18n.t('bot.keyboard.tags'), 'tags')],
+          [button(I18n.t('bot.keyboard.close'), 'close')]
         ]
       end
 

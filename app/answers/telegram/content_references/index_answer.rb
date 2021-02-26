@@ -23,7 +23,7 @@ module Telegram
 
       def one_page_list_response
         controller.respond_with :message, text: I18n.t('bot.content_reference.one_page_list'),
-                                          reply_markup: { inline_keyboard: contents_keyboard }
+                                          reply_markup: { inline_keyboard: one_page_keyboard }
       end
 
       def multi_page_list_response
@@ -40,14 +40,21 @@ module Telegram
 
       def empty_list_keyboard
         [
-          [button(I18n.t('bot.keyboard.new_content'), 'new_content')], [button(I18n.t('bot.keyboard.help'), 'help')]
+          [button(I18n.t('bot.keyboard.new_content'), 'new_content')],
+          [button(I18n.t('bot.keyboard.help'), 'help')],
+          [button(I18n.t('bot.keyboard.close'), 'close')]
         ]
+      end
+
+      def one_page_keyboard
+        [*contents_keyboard, [button(I18n.t('bot.keyboard.close'), 'close')]]
       end
 
       def multi_page_list_keyboard
         [
           *contents_keyboard,
-          *arrows_keyboard
+          *arrows_keyboard,
+          [button(I18n.t('bot.keyboard.close'), 'close')]
         ]
       end
 
