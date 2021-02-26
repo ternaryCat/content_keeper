@@ -1,8 +1,6 @@
 module Telegram
   class ApplicationController < Telegram::Bot::UpdatesController
     include Telegram::Bot::UpdatesController::MessageContext
-    # TO DO: refactor for production
-    self.session_store = :file_store, './storage'
 
     def current_user
       @current_user ||= current_authentication&.user
