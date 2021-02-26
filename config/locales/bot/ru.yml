@@ -13,11 +13,11 @@ ru:
       help: 📲 Меню
       about: 📣 О нас
       cancel: ❌ Отменить
-      attach_tag: ⭐️ Добавить тег
-      attach_other_tag: ⭐️ Добавить другой тег
+      attach_tag: ⭐️ Прикрепить тег
+      attach_other_tag: ⭐️ Прикрепить другой тег
       next: ➡️
       previous: ⬅️
-      edit: ✏️ Изменить
+      edit: ✏️ заменить
       delete: 🗑 Удалить
       name: ✏️ Назвать
       rename: 📇 Переименовать
