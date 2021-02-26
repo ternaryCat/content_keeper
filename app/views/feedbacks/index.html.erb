@@ -1,0 +1,21 @@
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t('feedback.user') %></th>
+      <th><%= t('feedback.from') %></th>
+      <th><%= t('feedback.text') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= link_to t('feedback.respond'), feedback_path(feedback) %></td>
+        <td><%= feedback.authentication.title %></td>
+        <td><%= feedback.authentication.provider %></td>
+        <td><%= feedback.preview %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

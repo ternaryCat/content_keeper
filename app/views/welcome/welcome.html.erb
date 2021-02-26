@@ -1,4 +1,6 @@
-<p>
-  <%= t('welcome') %>
-</p>
+<p><%= t('welcome') %></p>
 <%= link_to '@skeeper_space_bot', 'https://t.me/skeeper_space_bot' %>
+
+<p><%= t('feedback.title') %></p>
+<%= link_to t('feedback.opened'), feedbacks_path %>
+<%= link_to t('feedback.closed'), closed_feedbacks_path %>

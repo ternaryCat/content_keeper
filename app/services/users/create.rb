@@ -33,7 +33,8 @@ module Users
         first_name: first_name,
         last_name: last_name,
         username: username,
-        language_code: language_code
+        language_code: language_code,
+        role: :user
       }
     end
   end

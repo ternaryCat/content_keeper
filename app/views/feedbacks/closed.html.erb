@@ -1,0 +1,21 @@
+<table>
+  <thead>
+    <tr>
+      <th><%= t('feedback.user') %></th>
+      <th><%= t('feedback.from') %></th>
+      <th><%= t('feedback.text') %></th>
+      <th><%= t('feedback.answer') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.authentication.title %></td>
+        <td><%= feedback.authentication.provider %></td>
+        <td><%= feedback.text %></td>
+        <td><%= feedback.text %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
