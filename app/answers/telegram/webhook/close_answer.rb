@@ -5,6 +5,7 @@ module Telegram
       param :message_id
 
       def render
+        super
         controller.bot.delete_message(chat_id: chat_id, message_id: message_id)
       end
     end

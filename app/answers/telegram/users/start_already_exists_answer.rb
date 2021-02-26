@@ -2,6 +2,7 @@ module Telegram
   module Users
     class StartAlreadyExistsAnswer < BaseAnswer
       def render
+        super
         controller.respond_with :message, text: I18n.t('bot.user.already_exists'), reply_markup: {
           keyboard: keyboard,
           resize_keyboard: true

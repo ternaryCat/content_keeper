@@ -4,6 +4,7 @@ module Telegram
       param :content
 
       def render
+        super
         controller.respond_with :message, text: I18n.t('bot.content_reference.attacheded_tag_duplicates'),
                                           reply_markup: { inline_keyboard: inline_keyboard }
       end

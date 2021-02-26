@@ -4,6 +4,7 @@ module Telegram
       param :current_authentication
 
       def render
+        super
         controller.respond_with :message, text: current_authentication.to_json
       end
     end

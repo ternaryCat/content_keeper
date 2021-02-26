@@ -8,6 +8,7 @@ module Telegram
       option :previous_page_id, optional: true
 
       def render
+        super
         return empty_list_response if count.zero?
         return one_page_list_response if !next_page_id && !previous_page_id
 

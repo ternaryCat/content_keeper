@@ -19,6 +19,10 @@ module Telegram
       end
     end
 
+    def render
+      controller.answer_callback_query nil
+    end
+
     protected
 
     def button(text, callback_name, **options)

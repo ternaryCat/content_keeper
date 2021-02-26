@@ -5,6 +5,7 @@ module Telegram
       param :content
 
       def render
+        super
         # you can use forwardMessage instead
         Telegram.bot.request(:copyMessage,
                              chat_id: authentication.uid,

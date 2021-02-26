@@ -2,6 +2,7 @@ module Telegram
   module Users
     class StartAnswer < BaseAnswer
       def render
+        super
         controller.respond_with :message, text: I18n.t('bot.welcome'), reply_markup: {
           keyboard: keyboard,
           resize_keyboard: true
