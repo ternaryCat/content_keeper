@@ -21,6 +21,7 @@ module Telegram
 
     def render
       controller.answer_callback_query nil
+    rescue ::Telegram::Bot::Error
     end
 
     protected
