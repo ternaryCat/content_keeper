@@ -40,7 +40,7 @@ module Telegram
     end
 
     def create_content(message)
-      name = message['text']&.slice(..10) || message.keys.last
+      name = message['text']&.slice(0..10) || message.keys.last
       content_reference = ::ContentReferences::Create.call params.merge(name: name)
       ContentReferences::CreatedAnswer.render self, content_reference
     end
