@@ -15,7 +15,7 @@ module Users
 
       user = nil
       ActiveRecord::Base.transaction do
-        user = User.create
+        user = User.create role: :user
         Authentication.create(authentication_params(user))
       end
       raise Error unless user.persisted?
@@ -33,8 +33,7 @@ module Users
         first_name: first_name,
         last_name: last_name,
         username: username,
-        language_code: language_code,
-        role: :user
+        language_code: language_code
       }
     end
   end
