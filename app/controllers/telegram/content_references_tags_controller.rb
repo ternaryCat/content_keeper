@@ -25,6 +25,10 @@ module Telegram
       tag = Tag.find_by id: options[:id]
       ::ContentReferencesTags::Attach.call content, tag
       ContentReferencesTags::AttachedAnswer.render self, content, tag
+    rescue ::ContentReferencesTags::BaseService::NotFoundContent
+      ContentReferences::NotFoundAnswer.render self
+    rescue ::ContentReferencesTags::BaseService::NotFoundTag
+      Tags::NotFoundAnswer.render self
     rescue ::ContentReferencesTags::Attach::Duplicate
       ContentReferencesTags::DuplicateAnswer.render self, content
     end

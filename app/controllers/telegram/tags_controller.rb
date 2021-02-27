@@ -36,14 +36,25 @@ module Telegram
 
     def last_action_strategy(action)
       {
-        new_tag: ->(_options, message) { create_tag(message) },
+        new_tag: ->(options, message) { create_tag(options, message) },
         edit_tag: ->(options, message) { edit_tag(options, message) }
       }[action]
     end
 
-    def create_tag(message)
+    def create_tag(options, message)
       tag = ::Tags::Create.call params(message)
       Tags::CreatedAnswer.render self, tag
+      return unless options[:content_id]
+
+      content = ContentReference.find_by(id: options[:content_id])
+      ::ContentReferencesTags::Attach.call content, tag
+      ContentReferencesTags::AttachedAnswer.render self, content, tag
+    rescue ::ContentReferencesTags::BaseService::NotFoundContent
+      ContentReferences::NotFoundAnswer.render self
+    rescue ::ContentReferencesTags::BaseService::NotFoundTag
+      Tags::NotFoundAnswer.render self
+    rescue ::ContentReferencesTags::BaseService::Duplicate
+      ContentReferencesTags::DuplicateAnswer.render self, content
     end
 
     def edit_tag(options, message)

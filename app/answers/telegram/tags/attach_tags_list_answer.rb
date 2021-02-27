@@ -41,8 +41,8 @@ module Telegram
 
       def empty_list_keyboard
         [
-          [{ text: I18n.t('bot.keyboard.new_tag'), callback_data: 'new_tag' }],
-          [{ text: I18n.t('bot.keyboard.help'), callback_data: 'help' }]
+          [button(I18n.t('bot.keyboard.new_tag'), 'new_tag', content_id: content_id)],
+          [button(I18n.t('bot.keyboard.help'), 'help'), button(I18n.t('bot.keyboard.close'), 'close')]
         ]
       end
 
