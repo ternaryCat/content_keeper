@@ -28,15 +28,9 @@ module Telegram
       end
 
       def multi_page_list_response
-        if mode == 'edit'
-          return controller.edit_message :reply_markup, reply_markup: { inline_keyboard: multi_page_list_keyboard }
-        end
-
-        controller.respond_with :message, text: I18n.t('bot.content_reference.multi_page_list', count: count),
-                                          reply_markup: { inline_keyboard: multi_page_list_keyboard }
-      rescue RuntimeError
-        controller.respond_with :message, text: I18n.t('bot.content_reference.multi_page_list', count: count),
-                                          reply_markup: { inline_keyboard: multi_page_list_keyboard }
+        answer I18n.t('bot.content_reference.multi_page_list', count: count),
+               { inline_keyboard: multi_page_list_keyboard },
+               :reply_markup
       end
 
       def empty_list_keyboard
