@@ -30,10 +30,6 @@ module Telegram
       about
     end
 
-    def debug!
-      Webhook::DebugAnswer.render self, current_authentication
-    end
-
     private
 
     def callback_strategy(action)
@@ -52,7 +48,7 @@ module Telegram
     end
 
     def help
-      Webhook::HelpAnswer.render self
+      Webhook::HelpAnswer.render self, current_user
     end
 
     def about
