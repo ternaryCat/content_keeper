@@ -14,6 +14,7 @@ gem 'dotenv-rails'
 gem 'strong_migrations'
 gem 'telegram-bot'
 gem 'dry-initializer'
+gem 'pundit'
 
 gem 'bootsnap', '>= 1.4.4', require: false
 

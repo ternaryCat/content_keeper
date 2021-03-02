@@ -1,6 +1,9 @@
 module Telegram
   class ApplicationController < Telegram::Bot::UpdatesController
     include Telegram::Bot::UpdatesController::MessageContext
+    include Pundit
+
+    rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
     def current_user
       @current_user ||= current_authentication&.user
@@ -22,6 +25,12 @@ module Telegram
 
     def global_session
       @@_global_session ||= self.class.superclass.build_session(session_key) # rubocop:disable Style/ClassVars
+    end
+
+    private
+
+    def user_not_authorized
+      UserNotAuthorizedAnswer.render self
     end
   end
 end
