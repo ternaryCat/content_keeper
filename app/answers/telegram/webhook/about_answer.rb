@@ -9,7 +9,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [button(I18n.t('bot.keyboard.feedback'), 'feedback'), *default_inline_keyboard]
+        [[button(I18n.t('bot.keyboard.feedback'), 'feedback')], *default_inline_keyboard]
       end
     end
   end
