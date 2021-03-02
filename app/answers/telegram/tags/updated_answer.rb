@@ -16,7 +16,7 @@ module Telegram
         [
           [button(I18n.t('bot.keyboard.show'), 'show_tag', id: tag.id)],
           [button(I18n.t('bot.keyboard.tags'), 'tags')],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          *default_inline_keyboard
         ]
       end
     end

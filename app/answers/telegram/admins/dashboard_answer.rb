@@ -8,7 +8,7 @@ module Telegram
 
       def render
         super
-        controller.respond_with :message, text: text, reply_markup: { inline_keyboard: inline_keyboard }
+        controller.respond_with :message, text: text, reply_markup: { inline_keyboard: default_inline_keyboard }
       end
 
       private
@@ -18,10 +18,6 @@ module Telegram
                                         contents_count: contents_count,
                                         new_users_count: new_users_count,
                                         new_contents_count: new_contents_count)
-      end
-
-      def inline_keyboard
-        [[button(I18n.t('bot.keyboard.close'), 'close')]]
       end
     end
   end

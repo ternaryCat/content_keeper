@@ -20,8 +20,7 @@ module Telegram
         [
           *edit_keyboard,
           tags_keyboard,
-          [button(I18n.t('bot.keyboard.help'), 'help')],
-          [button(I18n.t('bot.keyboard.close'), 'close')]
+          *default_inline_keyboard
         ]
       end
 

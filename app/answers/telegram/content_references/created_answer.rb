@@ -22,7 +22,7 @@ module Telegram
             button(I18n.t('bot.keyboard.contents'), 'contents')
           ],
           [button(I18n.t('bot.content_reference.keyboard.create_more'), 'new_content')],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          *default_inline_keyboard
         ]
       end
     end

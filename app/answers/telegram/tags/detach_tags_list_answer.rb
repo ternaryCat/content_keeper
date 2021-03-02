@@ -34,7 +34,7 @@ module Telegram
       end
 
       def empty_list_keyboard
-        [[button(I18n.t('bot.keyboard.new_tag'), 'new_tag')], [button(I18n.t('bot.keyboard.help'), 'help')]]
+        [[button(I18n.t('bot.keyboard.new_tag'), 'new_tag')], *default_inline_keyboard]
       end
 
       def multi_page_list_keyboard
@@ -48,7 +48,6 @@ module Telegram
         result = []
         result.append(previous_arrow) if previous_page_id
         result.append(next_arrow) if next_page_id
-        return [] if result.empty?
 
         [result]
       end
@@ -66,6 +65,7 @@ module Telegram
       end
 
       def tags_keyboard
+        #TODO: refactor it
         tags.map do |tag|
           [{ text: tag.name, callback_data: "detach_tag-id:#{tag.id}:content_id:#{content_id}" }]
         end

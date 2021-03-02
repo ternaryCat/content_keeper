@@ -34,10 +34,7 @@ module Telegram
       end
 
       def empty_list_keyboard
-        [
-          [button(I18n.t('bot.keyboard.new_tag'), 'new_tag', content_id: content_id)],
-          [button(I18n.t('bot.keyboard.help'), 'help'), button(I18n.t('bot.keyboard.close'), 'close')]
-        ]
+        [[button(I18n.t('bot.keyboard.new_tag'), 'new_tag', content_id: content_id)], *default_inline_keyboard]
       end
 
       def multi_page_list_keyboard
@@ -51,7 +48,6 @@ module Telegram
         result = []
         result.append(previous_arrow) if previous_page_id
         result.append(next_arrow) if next_page_id
-        return [] if result.empty?
 
         [result]
       end

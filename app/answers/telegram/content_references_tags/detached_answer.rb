@@ -18,7 +18,7 @@ module Telegram
             button(I18n.t('bot.content_reference.keyboard.back'), 'show_content', id: content.id),
             button(I18n.t('bot.content_reference.keyboard.detach_more'), 'detach_tags_list', content_id: content.id)
           ],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          *default_inline_keyboard
         ]
       end
     end

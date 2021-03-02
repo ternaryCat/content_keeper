@@ -15,7 +15,7 @@ module Telegram
             button(I18n.t('bot.keyboard.new_content'), 'new_content'),
             button(I18n.t('bot.keyboard.contents'), 'contents')
           ],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          *default_inline_keyboard
         ]
       end
     end

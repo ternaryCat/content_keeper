@@ -15,7 +15,7 @@ module Telegram
         [
           [button(I18n.t('bot.keyboard.attach_other_tag'), 'attach_tags_list', content_id: content.id)],
           [button(I18n.t('bot.keyboard.contents'), 'contents')],
-          [button(I18n.t('bot.keyboard.help'), 'help')]
+          *default_inline_keyboard
         ]
       end
     end

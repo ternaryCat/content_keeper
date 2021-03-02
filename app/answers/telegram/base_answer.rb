@@ -2,6 +2,7 @@ module Telegram
   class BaseAnswer
     # read more at https://github.com/dry-rb/dry-initializer
     extend Dry::Initializer
+    include Keyboards
 
     param :controller
     option :mode, optional: true
@@ -43,10 +44,14 @@ module Telegram
       { text: text, callback_data: callback_data }
     end
 
+    def current_user
+      controller.current_user
+    end
+
     private
 
     def error_keyboard
-      [[button(I18n.t('bot.keyboard.feedback'), 'feedback'), button(I18n.t('bot.keyboard.close'), 'close')]]
+      [[button(I18n.t('bot.keyboard.feedback'), 'feedback'), close_button]]
     end
   end
 end

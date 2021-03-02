@@ -7,14 +7,11 @@ module Telegram
           keyboard: keyboard,
           resize_keyboard: true
         }
-        controller.respond_with :message, text: I18n.t('bot.menu'), reply_markup: { inline_keyboard: inline_keyboard }
+        controller.respond_with :message, text: I18n.t('bot.menu'),
+                                          reply_markup: { inline_keyboard: help_keyboard(current_user) }
       end
 
       private
-
-      def inline_keyboard
-        [[button(I18n.t('bot.keyboard.help'), 'help')]]
-      end
 
       def keyboard
         [[I18n.t('bot.keyboard.help'), I18n.t('bot.keyboard.about')]]
