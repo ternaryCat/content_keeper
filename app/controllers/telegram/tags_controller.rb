@@ -20,14 +20,14 @@ module Telegram
 
     def callback_strategy(action)
       {
-        new_tag: ->(_options) { Tags::NewAnswer.render self },
-        cancel_tag_creating: ->(_options) { Tags::CanceledCreatingAnswer.render self },
+        new_tag: ->(options) { Tags::NewAnswer.render self, **options },
+        cancel_tag_creating: ->(options) { Tags::CanceledCreatingAnswer.render self, **options },
         edit_tag: ->(options) { Tags::EditAnswer.render self, **options },
         cancel_tag_updating: ->(options) { Tags::CanceledUpdatingAnswer.render self, **options },
         tags: ->(options) { tags_list(options) },
         show_tag: ->(options) { show_tag(options) },
         delete_tag: ->(options) { delete_tag(options) },
-        cancel_deleting_tag: ->(_options) { Tags::CanceledDeletingAnswer.render self },
+        cancel_deleting_tag: ->(options) { Tags::CanceledDeletingAnswer.render self, **options },
         destroy_tag: ->(options) { destroy_tag(options) },
         attach_tags_list: ->(options) { attach_tags_list(options) },
         detach_tags_list: ->(options) { detach_tags_list(options) }

@@ -20,29 +20,29 @@ module Telegram
 
     def callback_strategy(action)
       {
-        new_content: ->(_options) { ContentReferences::NewAnswer.render self },
-        cancel_content_creating: ->(_options) { ContentReferences::CanceledCreatingAnswer.render self },
+        new_content: ->(options) { ContentReferences::NewAnswer.render self, **options },
+        cancel_content_creating: ->(options) { ContentReferences::CanceledCreatingAnswer.render self, **options },
         edit_content: ->(options) { ContentReferences::EditAnswer.render self, **options },
         cancel_content_updating: ->(options) { ContentReferences::CanceledUpdatingAnswer.render self, **options },
         contents: ->(options) { content_list(options) },
         show_content: ->(options) { show_content(options) },
         delete_content: ->(options) { delete_content(options) },
-        cancel_deleting_content: ->(_options) { ContentReferences::CanceledDeletingAnswer.render self },
+        cancel_deleting_content: ->(options) { ContentReferences::CanceledDeletingAnswer.render self, **options },
         destroy_content: ->(options) { destroy_content(options) }
       }[action]
     end
 
     def last_action_strategy(action)
       {
-        new_content: ->(_options, message) { create_content(message) },
+        new_content: ->(options, message) { create_content(options, message) },
         edit_content: ->(options, message) { edit_content(options, message) }
       }[action]
     end
 
-    def create_content(message)
+    def create_content(options, message)
       name = message['text']&.slice(0..10) || message.keys.last
       content_reference = ::ContentReferences::Create.call params.merge(name: name)
-      ContentReferences::CreatedAnswer.render self, content_reference
+      ContentReferences::CreatedAnswer.render self, content_reference, **options
     end
 
     def edit_content(options, message)

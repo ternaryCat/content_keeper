@@ -24,7 +24,7 @@ module Telegram
       content = ContentReference.find_by id: options[:content_id]
       tag = Tag.find_by id: options[:id]
       ::ContentReferencesTags::Attach.call content, tag
-      ContentReferencesTags::AttachedAnswer.render self, content, tag
+      ContentReferencesTags::AttachedAnswer.render self, content, tag, **options
     rescue ::ContentReferencesTags::BaseService::NotFoundContent
       ContentReferences::NotFoundAnswer.render self
     rescue ::ContentReferencesTags::BaseService::NotFoundTag
@@ -37,7 +37,7 @@ module Telegram
       content = ContentReference.find_by id: options[:content_id]
       tag = Tag.find_by id: options[:id]
       ::ContentReferencesTags::Detach.call content, tag
-      ContentReferencesTags::DetachedAnswer.render self, content, tag
+      ContentReferencesTags::DetachedAnswer.render self, content, tag, **options
     end
   end
 end

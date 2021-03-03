@@ -30,7 +30,7 @@ module Telegram
       def multi_page_list_response
         answer I18n.t('bot.content_reference.multi_page_list', count: count),
                { inline_keyboard: multi_page_list_keyboard },
-               :reply_markup
+               %i(reply_markup)
       end
 
       def empty_list_keyboard

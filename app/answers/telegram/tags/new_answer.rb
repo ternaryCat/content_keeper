@@ -10,7 +10,7 @@ module Telegram
       private
 
       def inline_keyboard
-        [[button(I18n.t('bot.keyboard.cancel'), 'cancel_tag_creating')]]
+        [[button(I18n.t('bot.keyboard.cancel'), 'cancel_tag_creating', mode: :edit)]]
       end
     end
   end

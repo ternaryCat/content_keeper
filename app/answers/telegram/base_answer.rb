@@ -28,11 +28,11 @@ module Telegram
 
     protected
 
-    def answer(text, reply_markup, edit_option)
+    def answer(text, reply_markup, edit_options = [])
       params = { text: text, reply_markup: reply_markup }
-      return controller.edit_message edit_option, params.slice(edit_option) if mode == 'edit'
+      return controller.respond_with :message, params unless mode == 'edit'
 
-      controller.respond_with :message, params
+      edit_options.each { |edit_option| controller.edit_message edit_option, params.slice(edit_option) }
     rescue RuntimeError
       controller.respond_with :message, params
     end

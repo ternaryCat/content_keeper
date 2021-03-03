@@ -13,7 +13,7 @@ module Telegram
 
       def inline_keyboard
         [[
-          button(I18n.t('bot.keyboard.cancel'), 'cancel_deleting_content', id: content.id),
+          button(I18n.t('bot.keyboard.cancel'), 'cancel_deleting_content', id: content.id, mode: :edit),
           button(I18n.t('bot.keyboard.delete'), 'destroy_content', id: content.id)
         ]]
       end
