@@ -20,14 +20,14 @@ module Telegram
 
     def callback_strategy(action)
       {
-        new_tag: ->(options) { Tags::NewAnswer.render self, **options },
-        cancel_tag_creating: ->(options) { Tags::CanceledCreatingAnswer.render self, **options },
-        edit_tag: ->(options) { Tags::EditAnswer.render self, **options },
-        cancel_tag_updating: ->(options) { Tags::CanceledUpdatingAnswer.render self, **options },
+        new_tag: ->(options) { Tags::NewAnswer.render self, options },
+        cancel_tag_creating: ->(options) { Tags::CanceledCreatingAnswer.render self, options },
+        edit_tag: ->(options) { Tags::EditAnswer.render self, options },
+        cancel_tag_updating: ->(options) { Tags::CanceledUpdatingAnswer.render self, options },
         tags: ->(options) { tags_list(options) },
         show_tag: ->(options) { show_tag(options) },
         delete_tag: ->(options) { delete_tag(options) },
-        cancel_deleting_tag: ->(options) { Tags::CanceledDeletingAnswer.render self, **options },
+        cancel_deleting_tag: ->(options) { Tags::CanceledDeletingAnswer.render self, options },
         destroy_tag: ->(options) { destroy_tag(options) },
         attach_tags_list: ->(options) { attach_tags_list(options) },
         detach_tags_list: ->(options) { detach_tags_list(options) }
@@ -43,7 +43,7 @@ module Telegram
 
     def create_tag(options, message)
       tag = ::Tags::Create.call params(message)
-      Tags::CreatedAnswer.render self, tag
+      Tags::CreatedAnswer.render self, tag, options
       return unless options[:content_id]
 
       content = ContentReference.find_by(id: options[:content_id])
@@ -77,18 +77,18 @@ module Telegram
 
     def show_tag(options = {})
       tag = Tag.find_by(id: options[:id])
-      Tags::ShowAnswer.render self, tag
+      Tags::ShowAnswer.render self, tag, options
     end
 
     def delete_tag(options = {})
       tag = Tag.find_by id: options[:id]
-      Tags::DeleteAnswer.render self, tag
+      Tags::DeleteAnswer.render self, tag, options
     end
 
     def destroy_tag(options = {})
       tag = Tag.find_by id: options[:id]
       ::Tags::Destroy.call tag
-      Tags::DeletedAnswer.render self
+      Tags::DeletedAnswer.render self, options
     end
 
     def attach_tags_list(options = {})

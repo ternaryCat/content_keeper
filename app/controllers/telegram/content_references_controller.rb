@@ -20,14 +20,14 @@ module Telegram
 
     def callback_strategy(action)
       {
-        new_content: ->(options) { ContentReferences::NewAnswer.render self, **options },
-        cancel_content_creating: ->(options) { ContentReferences::CanceledCreatingAnswer.render self, **options },
-        edit_content: ->(options) { ContentReferences::EditAnswer.render self, **options },
-        cancel_content_updating: ->(options) { ContentReferences::CanceledUpdatingAnswer.render self, **options },
+        new_content: ->(options) { ContentReferences::NewAnswer.render self, options },
+        cancel_content_creating: ->(options) { ContentReferences::CanceledCreatingAnswer.render self, options },
+        edit_content: ->(options) { ContentReferences::EditAnswer.render self, options },
+        cancel_content_updating: ->(options) { ContentReferences::CanceledUpdatingAnswer.render self, options },
         contents: ->(options) { content_list(options) },
         show_content: ->(options) { show_content(options) },
         delete_content: ->(options) { delete_content(options) },
-        cancel_deleting_content: ->(options) { ContentReferences::CanceledDeletingAnswer.render self, **options },
+        cancel_deleting_content: ->(options) { ContentReferences::CanceledDeletingAnswer.render self, options },
         destroy_content: ->(options) { destroy_content(options) }
       }[action]
     end
@@ -42,7 +42,7 @@ module Telegram
     def create_content(options, message)
       name = message['text']&.slice(0..10) || message.keys.last
       content_reference = ::ContentReferences::Create.call params.merge(name: name)
-      ContentReferences::CreatedAnswer.render self, content_reference, **options
+      ContentReferences::CreatedAnswer.render self, content_reference, options
     end
 
     def edit_content(options, message)
@@ -67,18 +67,18 @@ module Telegram
 
     def show_content(options = {})
       content = ContentReference.find_by(id: options[:id])
-      ContentReferences::ShowAnswer.render self, current_authentication, content
+      ContentReferences::ShowAnswer.render self, current_authentication, content, options
     end
 
     def delete_content(options = {})
       content = ContentReference.find_by id: options[:id]
-      ContentReferences::DeleteAnswer.render self, content
+      ContentReferences::DeleteAnswer.render self, content, options
     end
 
     def destroy_content(options = {})
       content = ContentReference.find_by id: options[:id]
       ::ContentReferences::Destroy.call content
-      ContentReferences::DeletedAnswer.render self
+      ContentReferences::DeletedAnswer.render self, options
     end
 
     def params

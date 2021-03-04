@@ -40,7 +40,8 @@ module Telegram
       def multi_page_list_keyboard
         [
           *tags_keyboard,
-          *arrows_keyboard
+          *arrows_keyboard,
+          [close_button]
         ]
       end
 
@@ -65,10 +66,7 @@ module Telegram
       end
 
       def tags_keyboard
-        #TODO: refactor it
-        tags.map do |tag|
-          [{ text: tag.name, callback_data: "detach_tag-id:#{tag.id}:content_id:#{content_id}" }]
-        end
+        tags.map { |tag| [button(tag.name, detach_tag: tag.id, content_id: content_id)] }
       end
     end
   end

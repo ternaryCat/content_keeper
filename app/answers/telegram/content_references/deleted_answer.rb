@@ -3,8 +3,9 @@ module Telegram
     class DeletedAnswer < BaseAnswer
       def render
         super
-        controller.respond_with :message, text: I18n.t('bot.content_reference.deleted'),
-                                          reply_markup: { inline_keyboard: inline_keyboard }
+        answer I18n.t('bot.content_reference.deleted'),
+               { inline_keyboard: inline_keyboard },
+               %i(text reply_markup)
       end
 
       private
