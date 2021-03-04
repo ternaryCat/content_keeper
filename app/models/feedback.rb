@@ -1,5 +1,5 @@
 class Feedback < ApplicationRecord
-  include FeedbacksPresenter
+  include FeedbackPresenter
 
   validates :text, presence: true
   belongs_to :authentication

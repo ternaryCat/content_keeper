@@ -1,5 +1,5 @@
 class Authentication < ApplicationRecord
-  include AuthenticationsPresenter
+  include AuthenticationPresenter
 
   validates :provider, presence: true
   validates :uid, presence: true

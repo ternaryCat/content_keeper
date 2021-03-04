@@ -12,7 +12,7 @@ module Telegram
         ],
         [button(I18n.t('bot.keyboard.new_tag'), 'new_tag'), button(I18n.t('bot.keyboard.tags'), 'tags')],
         *admin_keyboard(user),
-        [close_button]
+        [button(I18n.t('bot.keyboard.plans'), 'plans'), close_button]
       ]
     end
 

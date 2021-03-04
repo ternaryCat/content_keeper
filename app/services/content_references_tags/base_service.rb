@@ -1,6 +1,6 @@
 module ContentReferencesTags
   class BaseService < ::BaseService
-    class NotFound < RuntimeError; end
+    class Duplicate < RuntimeError; end
 
     class NotFoundContent < RuntimeError; end
 

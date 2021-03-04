@@ -13,6 +13,7 @@ module Tags
 
     def valid!
       raise Duplicate if Tag.find_by user: user, name: name
+      raise ExceedingLimit if user.tags.count >= user.plan.tags
     end
   end
 end

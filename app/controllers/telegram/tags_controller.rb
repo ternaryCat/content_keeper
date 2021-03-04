@@ -55,6 +55,10 @@ module Telegram
       Tags::NotFoundAnswer.render self
     rescue ::ContentReferencesTags::BaseService::Duplicate
       ContentReferencesTags::DuplicateAnswer.render self, content
+    rescue ::Tags::BaseService::Duplicate
+      Tags::DuplicateAnswer.render self
+    rescue ::Tags::BaseService::ExceedingLimit
+      Tags::ExceedingLimitAnswer.render self
     end
 
     def edit_tag(options, message)

@@ -1,0 +1,12 @@
+free:
+  contents: 200
+  tags: 20
+  cost: 0
+starter:
+  contents: 2000
+  tags: 200
+  cost: 49
+pro:
+  contents: 9999
+  tags: 999
+  cost: 99

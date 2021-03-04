@@ -14,6 +14,8 @@ module Telegram
 
       action_name, options = parse_action(action)
       last_action_strategy(action_name.to_sym)&.call(options, message)
+    rescue ::ContentReferences::BaseService::ExceedingLimit
+      ContentReferences::ExceedingLimitAnswer.render self
     end
 
     private
