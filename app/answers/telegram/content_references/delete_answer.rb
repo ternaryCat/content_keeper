@@ -12,7 +12,7 @@ module Telegram
 
         answer I18n.t('bot.content_reference.not_found'),
                { inline_keyboard: default_inline_keyboard },
-               %i(text reply_markup)
+               %i[text reply_markup]
       end
 
       private

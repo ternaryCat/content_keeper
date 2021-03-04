@@ -9,7 +9,7 @@ module Feedbacks
       raise Error if answer.empty?
       raise Error unless feedback.update answer: answer, state: :closed
 
-      Telegram.bot.send_message chat_id: feedback.authentication.uid,
+      Telegram.bot.send_message chat_id: feedback.authentication_uid,
                                 text: message,
                                 reply_markup: { inline_keyboard: default_inline_keyboard },
                                 parse_mode: :markdown

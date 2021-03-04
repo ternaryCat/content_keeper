@@ -1,5 +1,6 @@
-<p><%= @feedback.authentication.title %></p>
-<p><%= @feedback.authentication.provider %></p>
+<p><%= @feedback.authentication_title %></p>
+<p><%= @feedback.authentication_provider %></p>
+<p><%= @feedback.text %></p>
 
 <%= form_with url: reply_feedback_path(@feedback), method: :post, local: true do |form| %>
   <%= form.text_area :answer %>

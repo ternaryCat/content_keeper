@@ -12,8 +12,8 @@
     <% @feedbacks.each do |feedback| %>
       <tr>
         <td><%= link_to t('feedback.respond'), feedback_path(feedback) %></td>
-        <td><%= feedback.authentication.title %></td>
-        <td><%= feedback.authentication.provider %></td>
+        <td><%= feedback.authentication_title %></td>
+        <td><%= feedback.authentication_provider %></td>
         <td><%= feedback.preview %></td>
       </tr>
     <% end %>

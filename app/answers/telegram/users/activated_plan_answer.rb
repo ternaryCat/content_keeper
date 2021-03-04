@@ -5,7 +5,7 @@ module Telegram
         super
         answer I18n.t('bot.plans.activating_not_available'),
                { inline_keyboard: inline_keyboard },
-               %i(text reply_markup)
+               %i[text reply_markup]
       end
 
       private

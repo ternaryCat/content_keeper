@@ -5,7 +5,7 @@ module Telegram
         super
         answer I18n.t('bot.content_reference.deleted'),
                { inline_keyboard: inline_keyboard },
-               %i(text reply_markup)
+               %i[text reply_markup]
       end
 
       private

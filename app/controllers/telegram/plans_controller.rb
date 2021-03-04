@@ -10,7 +10,7 @@ module Telegram
     def callback_strategy(action)
       {
         plans: ->(options) { Plans::IndexAnswer.render self, options },
-        plan: -> (options) { Plans::ShowAnswer.render self, options }
+        plan: ->(options) { Plans::ShowAnswer.render self, options }
       }[action]
     end
   end

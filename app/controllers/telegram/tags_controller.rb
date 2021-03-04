@@ -7,15 +7,6 @@ module Telegram
       Tags::NotFoundAnswer.render self
     end
 
-    def message(message)
-      action = global_session[:last_action]&.dig(:args)&.first
-      return unless action
-      return if global_session[:last_action][:action] != 'callback_query'
-
-      action_name, options = parse_action(action)
-      last_action_strategy(action_name.to_sym)&.call(options, message)
-    end
-
     private
 
     def callback_strategy(action)
@@ -28,44 +19,9 @@ module Telegram
         show_tag: ->(options) { show_tag(options) },
         delete_tag: ->(options) { delete_tag(options) },
         cancel_deleting_tag: ->(options) { Tags::CanceledDeletingAnswer.render self, options },
-        destroy_tag: ->(options) { destroy_tag(options) },
         attach_tags_list: ->(options) { attach_tags_list(options) },
         detach_tags_list: ->(options) { detach_tags_list(options) }
       }[action]
-    end
-
-    def last_action_strategy(action)
-      {
-        new_tag: ->(options, message) { create_tag(options, message) },
-        edit_tag: ->(options, message) { edit_tag(options, message) }
-      }[action]
-    end
-
-    def create_tag(options, message)
-      tag = ::Tags::Create.call params(message)
-      Tags::CreatedAnswer.render self, tag, options
-      return unless options[:content_id]
-
-      content = ContentReference.find_by(id: options[:content_id])
-      ::ContentReferencesTags::Attach.call content, tag
-      ContentReferencesTags::AttachedAnswer.render self, content, tag
-    rescue ::ContentReferencesTags::BaseService::NotFoundContent
-      ContentReferences::NotFoundAnswer.render self
-    rescue ::ContentReferencesTags::BaseService::NotFoundTag
-      Tags::NotFoundAnswer.render self
-    rescue ::ContentReferencesTags::BaseService::Duplicate
-      ContentReferencesTags::DuplicateAnswer.render self, content
-    rescue ::Tags::BaseService::Duplicate
-      Tags::DuplicateAnswer.render self
-    rescue ::Tags::BaseService::ExceedingLimit
-      Tags::ExceedingLimitAnswer.render self
-    end
-
-    def edit_tag(options, message)
-      tag = Tag.find_by id: options[:id]
-
-      ::Tags::Update.call tag, params(message).slice(:user, options[:target].to_sym)
-      Tags::UpdatedAnswer.render self, tag, options
     end
 
     def tags_list(options = {})
@@ -87,12 +43,6 @@ module Telegram
     def delete_tag(options = {})
       tag = Tag.find_by id: options[:id]
       Tags::DeleteAnswer.render self, tag, options
-    end
-
-    def destroy_tag(options = {})
-      tag = Tag.find_by id: options[:id]
-      ::Tags::Destroy.call tag
-      Tags::DeletedAnswer.render self, options
     end
 
     def attach_tags_list(options = {})
@@ -117,10 +67,6 @@ module Telegram
 
       params = options.merge(next_page_id: start_next_page&.id, previous_page_id: start_previous_page&.id)
       Tags::DetachTagsListAnswer.render self, tags, tags_count, params
-    end
-
-    def params(message)
-      { user: current_user, name: message['text'] }
     end
   end
 end

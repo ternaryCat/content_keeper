@@ -23,7 +23,7 @@ module Telegram
     def render
       controller.answer_callback_query nil if controller.payload['data'].present?
     rescue ::Telegram::Bot::Error
-      controller.respond_with :message, text: I18n.t('bot.error'), reply_markup: { inline_keyboard: error_keyboard }
+      GeneralErrorAnswer.render controller
     end
 
     protected
@@ -46,12 +46,6 @@ module Telegram
 
     def current_user
       controller.current_user
-    end
-
-    private
-
-    def error_keyboard
-      [[button(I18n.t('bot.keyboard.feedback'), 'feedback'), close_button]]
     end
   end
 end

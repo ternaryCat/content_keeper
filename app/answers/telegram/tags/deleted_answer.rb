@@ -3,7 +3,7 @@ module Telegram
     class DeletedAnswer < BaseAnswer
       def render
         super
-        answer I18n.t('bot.tag.deleted'), { inline_keyboard: inline_keyboard }, %i(text reply_markup)
+        answer I18n.t('bot.tag.deleted'), { inline_keyboard: inline_keyboard }, %i[text reply_markup]
       end
 
       private

@@ -28,7 +28,7 @@ module Telegram
     end
 
     def create_feedback(message)
-      feedback = ::Feedbacks::Create.call authentication: current_authentication, text: message
+      ::Feedbacks::Create.call authentication: current_authentication, text: message
       Feedbacks::CreatedAnswer.render self
     rescue ::Feedbacks::Create::Error
       Feedbacks::ErrorAnswer.render self

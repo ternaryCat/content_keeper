@@ -27,6 +27,7 @@ module Telegram
       ::Users::ActivatePlan.call current_user, options[:plan_type]
       Users::ActivatedPlanAnswer.render self, options
     rescue ::Users::ActivatePlan::Error
+      GeneralErrorAnswer.render self, options
     end
 
     def params

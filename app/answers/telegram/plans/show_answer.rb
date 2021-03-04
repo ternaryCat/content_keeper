@@ -5,7 +5,7 @@ module Telegram
 
       def render
         super
-        answer text, { inline_keyboard: inline_keyboard }, %i(text reply_markup)
+        answer text, { inline_keyboard: inline_keyboard }, %i[text reply_markup]
       end
 
       private

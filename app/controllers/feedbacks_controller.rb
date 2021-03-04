@@ -1,5 +1,5 @@
 class FeedbacksController < ApplicationController
-  before_action :feedback, only: %i(show reply)
+  before_action :feedback, only: %i[show reply]
 
   def index
     @feedbacks = Feedback.opened.includes(:authentication).order(id: :desc).limit 100
