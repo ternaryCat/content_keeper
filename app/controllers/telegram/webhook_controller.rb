@@ -11,6 +11,7 @@ module Telegram
 
     def process(action, *args)
       super
+      store_data
       global_session[:last_action] = { action: action, args: args }
     end
 
@@ -53,6 +54,12 @@ module Telegram
 
     def about
       Webhook::AboutAnswer.render self
+    end
+
+    def store_data
+      Metric.create title: 'action',
+                    user: current_user,
+                    data: { current: payload.except('id', 'from'), last: global_session[:last_action] }
     end
   end
 end
