@@ -28,7 +28,7 @@ module Telegram
 
     protected
 
-    def answer(text, reply_markup, edit_options = [])
+    def answer(text, reply_markup, edit_options = %i[text reply_markup])
       params = { text: text, reply_markup: reply_markup }
       return controller.respond_with :message, params unless mode == 'edit'
 

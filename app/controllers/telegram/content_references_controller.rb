@@ -9,11 +9,10 @@ module Telegram
 
     def message(message)
       action = global_session[:last_action]&.dig(:args)&.first
-      return unless action
-      return if global_session[:last_action][:action] != 'callback_query'
+      return new_express(message) if global_session[:last_action]&.dig(:action) != 'callback_query'
 
       action_name, options = parse_action(action)
-      last_action_strategy(action_name.to_sym)&.call(options, message)
+      last_action_strategy(action_name.to_sym)&.call(options, message) || new_express(message)
     rescue ::ContentReferences::BaseService::ExceedingLimit
       ContentReferences::ExceedingLimitAnswer.render self
     end
@@ -25,6 +24,7 @@ module Telegram
         new_content: ->(options) { ContentReferences::NewAnswer.render self, options },
         cancel_content_creating: ->(options) { ContentReferences::CanceledCreatingAnswer.render self, options },
         edit_content: ->(options) { ContentReferences::EditAnswer.render self, options },
+        create_content: ->(options) { create_content_by_token(options) },
         cancel_content_updating: ->(options) { ContentReferences::CanceledUpdatingAnswer.render self, options },
         contents: ->(options) { content_list(options) },
         show_content: ->(options) { show_content(options) },
@@ -42,8 +42,12 @@ module Telegram
     end
 
     def create_content(options, message)
-      name = message['text']&.slice(0..10) || message.keys.last
-      content_reference = ::ContentReferences::Create.call params.merge(name: name)
+      content_reference = ::ContentReferences::Create.call params.merge(name: name(message))
+      ContentReferences::CreatedAnswer.render self, content_reference, options
+    end
+
+    def create_content_by_token(options)
+      content_reference = ::ContentReferences::Create.call params.merge(options)
       ContentReferences::CreatedAnswer.render self, content_reference, options
     end
 
@@ -83,8 +87,18 @@ module Telegram
       ContentReferences::DeletedAnswer.render self, options
     end
 
+    def new_express(message)
+      return if I18n.t('bot.keyboard').value? message['text']
+
+      ContentReferences::NewExpressAnswer.render self, message['message_id'], name(message)
+    end
+
     def params
       { authentication: current_authentication, token: payload['message_id'] }
+    end
+
+    def name(message)
+      message['text']&.slice(0..10) || message.keys.last
     end
   end
 end

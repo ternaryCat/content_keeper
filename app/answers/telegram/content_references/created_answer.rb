@@ -5,8 +5,7 @@ module Telegram
 
       def render
         super
-        controller.respond_with :message, text: I18n.t('bot.content_reference.created'),
-                                          reply_markup: { inline_keyboard: inline_keyboard }
+        answer I18n.t('bot.content_reference.created'), { inline_keyboard: inline_keyboard }
       end
 
       private
