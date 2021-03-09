@@ -29,6 +29,8 @@ group :development, :test do
   gem 'brakeman'
   gem 'bundler-audit'
   gem 'bullet'
+
+  gem 'rspec-rails'
 end
 
 group :development do

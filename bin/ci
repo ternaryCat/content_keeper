@@ -16,7 +16,7 @@ chdir APP_ROOT do
   system! 'bundle exec bundle-audit update && bundle exec bundle-audit check'
   # for selenium
   # system! 'RAILS_ENV=test bundle exec rails webpacker:compile'
-  # system! 'bundle exec rspec --require rails_helper spec --format progress'
+  system! 'bundle exec rspec --require rails_helper spec --format progress'
 end
 
 puts "\e[32m+----------------------------------------------------------------+\e[0m"
