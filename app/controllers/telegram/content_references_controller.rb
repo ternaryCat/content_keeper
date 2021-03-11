@@ -8,7 +8,6 @@ module Telegram
     end
 
     def message(message)
-      action = global_session[:last_action]&.dig(:args)&.first
       return new_express(message) if global_session[:last_action]&.dig(:action) != 'callback_query'
 
       action_name, options = parse_action(action)
@@ -47,7 +46,8 @@ module Telegram
     end
 
     def create_content_by_token(options)
-      content_reference = ::ContentReferences::Create.call params.merge(options)
+      name = global_session[options[:token]]
+      content_reference = ::ContentReferences::Create.call params.merge(options).merge(name: name)
       ContentReferences::CreatedAnswer.render self, content_reference, options
     end
 
@@ -90,15 +90,28 @@ module Telegram
     def new_express(message)
       return if I18n.t('bot.keyboard').value? message['text']
 
-      ContentReferences::NewExpressAnswer.render self, message['message_id'], name(message)
+      ContentReferences::NewExpressAnswer.render self, message['message_id']
+      global_session[message['message_id']] = name(message)
+    end
+
+    def name(message)
+      if message['forward_from']
+        result = message['forward_from'].slice('first_name', 'last_name')
+                                        .compact
+                                        .values
+                                        .join(' ')
+      end
+      result = message['forward_from_chat']['title'] if message['forward_from_chat']
+      result = message['text']&.slice(0..10) || message.keys.last if result.blank?
+      result
     end
 
     def params
       { authentication: current_authentication, token: payload['message_id'] }
     end
 
-    def name(message)
-      message['text']&.slice(0..10) || message.keys.last
+    def action
+      global_session[:last_action]&.dig(:args)&.first
     end
   end
 end

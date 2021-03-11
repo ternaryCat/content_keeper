@@ -2,7 +2,6 @@ module Telegram
   module ContentReferences
     class NewExpressAnswer < BaseAnswer
       param :message_id
-      param :name
 
       def render
         super
@@ -16,9 +15,7 @@ module Telegram
       end
 
       def save_button
-        button(I18n.t('bot.content_reference.keyboard.save'), 'create_content', token: message_id,
-                                                                                name: name,
-                                                                                mode: :edit)
+        button(I18n.t('bot.content_reference.keyboard.save'), 'create_content', token: message_id, mode: :edit)
       end
     end
   end
